@@ -22,12 +22,12 @@ class  BJCloud
      */
     public function __construct($config)
     {
-        if ($config['partnerId'] ?? null) {
-            $this->partnerId = $config['partnerId'];
+        if ($config['partner_id'] ?? null) {
+            $this->partnerId = $config['partner_id'];
         }
 
-        if ($config['partnerKey'] ?? null) {
-            $this->partnerKey = $config['partnerKey'];
+        if ($config['partner_key'] ?? null) {
+            $this->partnerKey = $config['partner_key'];
         }
 
         if ($config['domain'] ?? null) {
