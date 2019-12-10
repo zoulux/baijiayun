@@ -1,0 +1,31 @@
+{
+  "name": "jake/baijiayun",
+  "description": "百家云直播",
+  "type": "library",
+  "license": "MIT",
+  "version": "0.0.1",
+  "authors": [
+    {
+      "name": "Jake zou",
+      "email": "zoulux@126.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "guzzlehttp/guzzle": "^6.2",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jake\\Baijiayun\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jake\\Baijiayun\\Tests\\": "tests/"
+    }
+  }
+}
