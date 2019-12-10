@@ -376,6 +376,31 @@ class  BJCloud
         return $this->call('/openapi/live_account/getClassCallbackUrl');
     }
 
+    /**
+     * 获取教室课后评价数据
+     * http://dev.baijiayun.com/wiki/detail/79#h6-55
+     * @param string|int $roomId 房间id
+     * @param int $page
+     * @param int $pageSize
+     * @param string $date
+     * @return array|mixed
+     * @throws BJCloudException
+     */
+    public function roomDataGetEvaluationStat($roomId, $page, $pageSize = 20, $date = '')
+    {
+        $params = [
+            'room_id' => $roomId,
+            'page' => $page,
+            'page_size' => $pageSize
+        ];
+
+        if ($date) {
+            $params['date'] = $date;
+        }
+
+        return $this->call('/openapi/room_data/getEvaluationStat', $params);
+    }
+
 //==================================================
 //              以下为系统逻辑
 //==================================================
