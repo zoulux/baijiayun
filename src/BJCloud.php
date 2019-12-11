@@ -4,6 +4,7 @@ namespace Jake\Baijiayun;
 
 use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class  BJCloud
 {
@@ -427,6 +428,30 @@ class  BJCloud
         }
 
         return $data;
+    }
+
+    /**
+     * 返回成功
+     * @return Response
+     */
+    public function responseSuccess()
+    {
+        return Response::create(json_encode([
+            'code' => 0,
+        ]));
+    }
+
+    /**
+     * 返回失败
+     * @param string $msg
+     * @return Response
+     */
+    public function responseErr($msg = '错误信息')
+    {
+        return Response::create(json_encode([
+            "code" => 1,
+            "msg" => $msg
+        ]));
     }
 
 //==================================================
