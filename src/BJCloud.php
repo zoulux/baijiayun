@@ -3,6 +3,7 @@
 namespace Jake\Baijiayun;
 
 use GuzzleHttp\Client;
+use Symfony\Component\HttpFoundation\Request;
 
 class  BJCloud
 {
@@ -401,6 +402,33 @@ class  BJCloud
         return $this->call('/openapi/room_data/getEvaluationStat', $params);
     }
 
+    /**
+     * 校验签名
+     * @param null $data
+     * @return array|null
+     * @throws BJCloudException
+     */
+    public function verify($data = null)
+    {
+        if (is_null($data)) {
+            $request = Request::createFromGlobals();
+            $data = $request->request->count() > 0 ? $request->request->all() : $request->query->all();
+        }
+
+        if (!isset($data['sign'])) {
+            throw new BJCloudException('没有签名信息', 400001);
+        }
+
+        $sign = $data['sign'];
+
+        $verifySign = $this->generateSign($data, $this->partnerKey);
+        if (!hash_equals($verifySign, $sign)) {
+            throw new BJCloudException('签名不准确', 400002);
+        }
+
+        return $data;
+    }
+
 //==================================================
 //              以下为系统逻辑
 //==================================================
@@ -413,6 +441,8 @@ class  BJCloud
      */
     private function generateSign($params, $partner_key)
     {
+        unset($params['sign']);
+
         ksort($params);//将参数按key进行排序
         $str = '';
         foreach ($params as $k => $val) {
