@@ -404,6 +404,89 @@ class  BJCloud
     }
 
     /**
+     * 查询直播回放信息
+     * http://dev.baijiayun.com/wiki/detail/6#h2-3
+     * @param string|int $roomId 房间id
+     * @param string $sessionId 序列号（针对长期房间才会用到）
+     * @return array|mixed
+     * @throws BJCloudException
+     */
+    public function playbackGetBasicInfo($roomId, $sessionId = null)
+    {
+        $params = [
+            'room_id' => $roomId,
+        ];
+
+        if ($sessionId) {
+            $params['session_id'] = $sessionId;
+        }
+        return $this->call('/openapi/playback/getBasicInfo', $params);
+    }
+
+    /**
+     * 获取回放token
+     *  http://dev.baijiayun.com/wiki/detail/6#h2-5
+     * @param string|int $roomId 房间id
+     * @param int $expiresIn 过期时间，以秒为单位。如果传0则表示不过期
+     * @param string $sessionId 序列号（针对长期房间才会用到）
+     * @return array|mixed
+     * @throws BJCloudException
+     */
+    public function playbackGetPlayerToken($roomId, $expiresIn = 0, $sessionId = null)
+    {
+        $params = [
+            'room_id' => $roomId,
+            'expires_in' => $expiresIn,
+        ];
+
+        if ($sessionId) {
+            $params['session_id'] = $sessionId;
+        }
+        return $this->call('/openapi/playback/getPlayerToken', $params);
+    }
+
+    /**
+     * 批量获取回放token
+     * http://dev.baijiayun.com/wiki/detail/6#h2-5
+     * @param string $roomIds 短期房间传{room_id}，长期房间传{room_id}-{session_id}，多个回放用英文逗号分隔，如：17110879095169,1711087909231-201711281
+     * @param int $expiresIn 过期时间，以秒为单位。如果传0则表示不过期
+     * @return array|mixed
+     * @throws BJCloudException
+     */
+    public function playbackGetPlayerTokenBatch($roomIds, $expiresIn = 0)
+    {
+        return $this->call('/openapi/playback/getPlayerTokenBatch', [
+            'room_ids' => $roomIds,
+            'expires_in' => $expiresIn,
+        ]);
+    }
+
+    /**
+     * 设置转码回调地址（点播和回放）
+     * http://dev.baijiayun.com/default/wiki/detail/4#h37-38
+     * @param string $url 回调地址，必须是http(s)://开头
+     * @return array|mixed
+     * @throws BJCloudException
+     */
+    public function videoAccountSetTranscodeCallbackUrl($url)
+    {
+        return $this->call('/openapi/video_account/setTranscodeCallbackUrl', [
+            'url' => $url,
+        ]);
+    }
+
+    /**
+     * 查询转码回调地址（点播和回放）
+     * http://dev.baijiayun.com/default/wiki/detail/4#h37-38
+     * @return array|mixed
+     * @throws BJCloudException
+     */
+    public function videoAccountGetTranscodeCallbackUrl()
+    {
+        return $this->call('/openapi/video_account/getTranscodeCallbackUrl');
+    }
+
+    /**
      * 校验签名
      * @param null $data
      * @return array|null
